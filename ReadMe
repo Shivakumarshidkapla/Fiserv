@@ -1,0 +1,115 @@
+# Fiserv — digitalapi.ai
+
+> Repository for the Fiserv integration / client project worked on while at **digitalapi.ai**.  
+> This README summarizes the work, architecture, important implementation details, and how to run the project — based on the developer's activity and contributions over the past few years.
+
+---
+
+## Table of contents
+- [Project summary](#project-summary)
+- [My role](#my-role)
+- [Key responsibilities & contributions](#key-responsibilities--contributions)
+- [Features & improvements implemented](#features--improvements-implemented)
+- [Bugs fixed / incidents handled](#bugs-fixed--incidents-handled)
+- [Tech stack & tools](#tech-stack--tools)
+- [Local setup / developer environment](#local-setup--developer-environment)
+- [Security & testing notes](#security--testing-notes)
+- [API / Endpoints (examples)](#api--endpoints-examples)
+- [How to contribute](#how-to-contribute)
+- [Changelog / timeline (high level)](#changelog--timeline-high-level)
+- [Contact](#contact)
+
+---
+
+## Project summary
+This repository contains the backend and integration pieces for the Fiserv-related deliverable worked on as part of digitalapi.ai. The project focuses on robust backend APIs, secure file handling, complex form workflows, and integrations required by the client.
+
+> **Note:** fill in a short one-line description of the product/feature here (e.g., "Payment reconciliation service", "Payment gateway integration", "Merchant onboarding portal") — where unknown, replace the placeholder.
+
+---
+
+## My role
+**Drupal Backend Developer** (Aug 2024 — Present)  
+Primary responsibilities: API development, backend validation, complex form handling, file upload management, debugging/incident resolution, and bringing secure-development practices (DevSecOps / system hardening) to the project.
+
+---
+
+## Key responsibilities & contributions
+- Designed and implemented backend APIs to support client workflows and integrations.
+- Developed complex Drupal forms with strict validation and robust error handling.
+- Implemented secure file upload flows and server-side file lifecycle management.
+- Investigated and fixed authentication/identity issues when JWTs belonged to unexpected users.
+- Hardened application behavior to prevent UI/UX regressions (e.g., preventing popups from closing on Escape when needed).
+- Took ownership of multiple production bugs and edge cases; improved logging and monitoring for recurring issues.
+- Collaborated with frontend (React) developers to align API contracts and data validation.
+
+---
+
+## Features & improvements implemented
+- **File upload lifecycle**
+  - Implemented logic that checks for existing files with same name and either deletes and replaces or uploads new depending on configuration.
+  - Ensured reliable copying/moving of temporary upload files into permanent storage.
+- **Form validation & graceful error handling**
+  - Created custom validators for multi-step forms.
+  - Ensured errors surfaced to users and logs included contextual data for debugging.
+- **Popup UX hardening**
+  - Prevented unintended popup closures triggered by Escape key on specific modals.
+- **Auth / JWT debugging**
+  - Investigated an issue where browser-sent JWTs belonged to a different user; corrected server-side current-user resolution and fixed token handling flow.
+- **Secure-by-default changes**
+  - Added server-side checks for inputs and strengthened sanitization for sensitive endpoints.
+
+---
+
+## Bugs fixed / incidents handled (representative)
+- Fixed "temporary file could not be copied because it does not exist" issue — improved upload flow and made file moves atomic where possible.
+- Solved file-conflict flows (delete-then-upload vs. upload-if-not-exists) to avoid stale files and broken links.
+- Resolved a JWToken mismatch bug where an API call from a logged-in user included a token for a different user; corrected current-user resolution on the server.
+- Prevented pop-up closing on Escape for critical confirmation modals to avoid accidental dismissals.
+
+---
+
+## Tech stack & tools
+- **Backend:** Drupal (custom modules), PHP
+- **Frontend:** React.js (collaboration / API consumer)
+- **DB:** MySQL / MariaDB
+- **CLI / tooling:** Drush (`drush 12.5.1` noted in dev environment)
+- **Other:** Git, Composer, PHPUnit (or equivalent test tooling), basic CI/CD integrations
+- **Security / testing labs:** Performed SQL injection testing exercises and implemented preventive measures.
+
+---
+
+
+Security & testing notes
+
+Performed SQL injection practice/testing and hardened inputs — ensure parameterized queries and Drupal's API are used to avoid raw SQL where possible.
+
+Enforce JWT validation and verify token audience/subject for every request.
+
+Sanitize file uploads: check mime types, limit size, store outside the webroot or use signed URLs where possible.
+
+Suggested security tooling: static code analysis (PHPStan / Psalm), dependency vulnerability scanning, automated security tests in CI.
+
+Regularly rotate keys and secure .env and CI secrets.
+
+API / Endpoints (examples)
+
+Fill these with actual routes and examples
+
+POST /api/v1/uploads — Upload a file (multipart/form-data)
+Request: file, user_id, overwrite=(true|false)
+Response: { "success": true, "path": "/files/..." }
+
+POST /api/v1/auth/token — JWT exchange / refresh
+Request: { "username": "...", "password": "..." }
+Response: { "token": "...", "expires_in": 3600 }
+
+GET /api/v1/transactions — Fetch transactions with filters (pagination)
+
+Add full API contract (headers, sample requests, sample responses, error codes) into docs/api.md.
+
+
+
+
+
+
