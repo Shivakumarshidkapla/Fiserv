@@ -24,7 +24,6 @@
 ## Project summary
 This repository contains the backend and integration pieces for the Fiserv-related deliverable worked on as part of digitalapi.ai. The project focuses on robust backend APIs, secure file handling, complex form workflows, and integrations required by the client.
 
-> **Note:** fill in a short one-line description of the product/feature here (e.g., "Payment reconciliation service", "Payment gateway integration", "Merchant onboarding portal") — where unknown, replace the placeholder.
 
 ---
 
